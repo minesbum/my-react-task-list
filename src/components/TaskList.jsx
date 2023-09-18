@@ -1,17 +1,15 @@
-import { Task } from "./Task"
-export const TaskList = () => {
-    
-    return (
-        <div>
-            <ul>
-                <li> <input type="checkbox" />Aprende a volar <span><Task/></span></li>
-                <li> <input type="checkbox" />Dejarle comida a mi perro <span><Task/></span></li>
-                <li> <input type="checkbox" />Recordar leer la lista <span><Task/></span></li>
-                <li> <input type="checkbox" />Aprender PHP <span><Task/></span></li>
-                <li> <input type="checkbox" />Usar zapatos <span><Task/></span></li>
-            </ul>
-        </div>
-
-    )
-} 
-
+import React from 'react';
+import { Task } from './Task';
+export const TaskList = ({ tasks, onDelete }) => {
+  return (
+    <div>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>
+            <Task task={task} onDelete={() => onDelete(index)} /> {/* Pasamos la tarea como prop */}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
