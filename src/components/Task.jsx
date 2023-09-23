@@ -1,5 +1,4 @@
-import { FaTrash } from 'react-icons/fa';
-import { FaEdit } from 'react-icons/fa';
+import { FaTrash, FaEdit } from 'react-icons/fa';
 
 export const Task = ({ text, onDelete }) => {
   return (
