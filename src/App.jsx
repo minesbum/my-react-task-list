@@ -4,33 +4,32 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 const initialTasks = [
-  { name: 'Hacer la compra', completed: false },
-  { name: 'Lavar el coche', completed: true },
+  { name: ' compra', completed: false },
+  { name: 'LavarHacer la el coche', completed: true },
   { name: 'Leer un libro', completed: false },
 ];
 
-
 function App() {
- 
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
 
   // Cargar tareas desde localStorage al cargar la aplicación
-useEffect(() => {
-  const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
-  setTasks(storedTasks);
-}, []);
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || initialTasks;
+    setTasks(storedTasks);
+  }, []);
 
-   // Guardar tareas en localStorage cada vez que cambien
-   useEffect(() => {
+  // Guardar tareas en localStorage cada vez que cambien
+  useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-    //Agregar una nueva tarea a la lista de tareas cuando el usuario hace clic en un botón o presiona una tecla
-  const handleAddTask = () => {
+  // Agregar una nueva tarea a la lista de tareas cuando el usuario hace clic en un botón o presiona una tecla
+  const handleAddTask = (e) => {
+    e.preventDefault();
     if (newTask.trim() !== '') {
       const newTaskObject = {
-        description: newTask,
+        name: newTask,
         completed: false,
       };
       setTasks([...tasks, newTaskObject]);
@@ -38,7 +37,7 @@ useEffect(() => {
     }
   };
 
-    //Elimina una tarea específica de la lista de tareas cuando el usuario hace clic en el botón de eliminación correspondiente
+  // Elimina una tarea específica de la lista de tareas cuando el usuario hace clic en el botón de eliminación correspondiente
   const handleDeleteTask = (index) => {
     const updatedTasks = [...tasks];
     updatedTasks.splice(index, 1);
@@ -69,4 +68,4 @@ useEffect(() => {
   );
 }
 
-export default App 
+export default App;
