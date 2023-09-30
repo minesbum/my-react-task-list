@@ -22,7 +22,7 @@ export function useTaskManager() {
         completed: false,
       };
       setTasks((prevTasks) => [...prevTasks, newTaskObject]);
-    }
+    };
   };
 
   // Eliminar una tarea específica por su índice
