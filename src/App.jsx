@@ -1,47 +1,18 @@
-import Header from "./components/Header"
-import { TaskList } from "./components/TaskList"
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-
-const initialTasks = [
-  { name: ' compra', completed: false },
-  { name: 'LavarHacer la el coche', completed: true },
-  { name: 'Leer un libro', completed: false },
-];
+import Header from './components/Header';
+import { TaskList } from './components/TaskList';
+import { useTaskManager } from './Hooks/useTaskManager';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const { tasks, createTask, deleteTask, updateTask } = useTaskManager();
+
   const [newTask, setNewTask] = useState('');
 
-  // Cargar tareas desde localStorage al cargar la aplicación
-  useEffect(() => {
-    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || initialTasks;
-    setTasks(storedTasks);
-  }, []);
-
-  // Guardar tareas en localStorage cada vez que cambien
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
-
-  // Agregar una nueva tarea a la lista de tareas cuando el usuario hace clic en un botón o presiona una tecla
   const handleAddTask = (e) => {
     e.preventDefault();
-    if (newTask.trim() !== '') {
-      const newTaskObject = {
-        name: newTask,
-        completed: false,
-      };
-      setTasks([...tasks, newTaskObject]);
-      setNewTask('');
-    }
-  };
-
-  // Elimina una tarea específica de la lista de tareas cuando el usuario hace clic en el botón de eliminación correspondiente
-  const handleDeleteTask = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks.splice(index, 1);
-    setTasks(updatedTasks);
+    createTask(newTask);
+    setNewTask('');
   };
 
   return (
@@ -60,7 +31,7 @@ function App() {
         <button type="submit">Agregar</button>
       </form>
 
-      <TaskList tasks={tasks} onDelete={handleDeleteTask} />
+      <TaskList tasks={tasks} onDelete={deleteTask} onUpdate={updateTask} />
       <div>
         <h3>You have {tasks.length} pending task(s)</h3>
       </div>
@@ -69,3 +40,4 @@ function App() {
 }
 
 export default App;
+
