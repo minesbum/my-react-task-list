@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 export function useTaskManager() {
   const [tasks, setTasks] = useState([]);
+  const [formErrors, setFormErrors] = useState({});
 
   // Cargar tareas desde localStorage al cargar la aplicación
   useEffect(() => {
@@ -14,15 +15,30 @@ export function useTaskManager() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-  // Crear una nueva tarea
+  // Crear una nueva tarea con validación
   const createTask = (newTask) => {
-    if (newTask.trim() !== '') {
-      const newTaskObject = {
-        name: newTask,
-        completed: false,
-      };
-      setTasks((prevTasks) => [...prevTasks, newTaskObject]);
+    if (newTask.name.trim().length < 3) {
+      setFormErrors({ name: 'debe tener al menos 3 caracteres' });
+      return;
+    }
+
+    setFormErrors({}); // Limpiar los errores si no hay errores en la nueva tarea
+
+    const newTaskObject = {
+      name: newTask.name,
+      description: newTask.description || '', // Establecer descripción como cadena vacía si no se proporciona
+      completed: false,
     };
+    setTasks((prevTasks) => [...prevTasks, newTaskObject]);
+  };
+
+  // Marcar una tarea como completada
+  const completeTask = (index) => {
+    setTasks((prevTasks) => {
+      const updatedTasks = [...prevTasks];
+      updatedTasks[index].completed = true;
+      return updatedTasks;
+    });
   };
 
   // Eliminar una tarea específica por su índice
@@ -46,9 +62,9 @@ export function useTaskManager() {
   return {
     tasks,
     createTask,
+    completeTask, // Agregamos esta función para marcar tareas como completadas
     deleteTask,
     updateTask,
+    formErrors,
   };
 }
-
-
