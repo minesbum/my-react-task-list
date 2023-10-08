@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import { TaskList } from './components/TaskList';
 import { useTaskManager } from './Hooks/useTaskManager';
+import './App.css';
+import Menu from './components/Menu';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+
+const Home = lazy(()=> import("./Pages/Home"))
+const SobreNosotros = lazy(()=> import("./Pages/SobreNosotros"))
+const Tareas = lazy(()=> import("./Pages/Tareas"))
 
 function App() {
   const { tasks, createTask, deleteTask, updateTask, completeTask, formErrors } = useTaskManager();
@@ -46,9 +53,17 @@ function App() {
   }, [tasks]);
 
   return (
-    <div>
+    <Router>
+        <Menu/>
+        <Suspense fallback="Loading...">
+          <Routes>
+            <Route path="/tareas" element={<Tareas />} />
+            <Route path="/sobre-nosotros" element={<SobreNosotros />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </Suspense>
+   
       <Header />
-
       <form onSubmit={handleAddTask}>
         <input
           type="text"
@@ -76,8 +91,7 @@ function App() {
       <div>
       <h3>You have {pendingTasksCount} Task(s) pending(s)</h3>
       </div>
-    </div>
+    </Router>
   );
 }
-
 export default App;
