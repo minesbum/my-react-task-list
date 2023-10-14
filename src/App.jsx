@@ -6,6 +6,7 @@ import './App.css';
 import Menu from './components/Menu';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ChakraProvider, CSSReset, Box, Input, Button, Heading, Spinner } from "@chakra-ui/react";
+import TogglecolorMode from './components/TogglecolorMode';
 
 
 
@@ -90,7 +91,7 @@ function App() {
             Add Task
           </Button>
         </Box>
-
+        <TogglecolorMode/>
         <TaskList tasks={tasks} onDelete={deleteTask} onUpdate={updateTask} onComplete={completeTask} />
         <Heading as="h3" size="md" mt={4}>
           You have {pendingTasksCount} Task(s) pending(s)

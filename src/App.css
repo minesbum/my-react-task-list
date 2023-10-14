@@ -11,7 +11,7 @@ body{
 
 h3 {
   font-size: 1.2rem; 
-  color: #020000; 
+  color: #666666; 
   margin-top: 10px; 
   text-shadow: 2px 2px 4px #00000033; 
 }
@@ -68,8 +68,8 @@ ul {
 
 li {
   font-size: 15px;
-  background-color: #f4f4f4; 
-  border: 5px solid #00bfff; 
+  background-color: #00000024; 
+  border: 5px solid #858585; 
   margin: 1px 10px; 
   padding: 10px;
   display: flex; 

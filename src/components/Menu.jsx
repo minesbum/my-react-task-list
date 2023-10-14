@@ -4,7 +4,7 @@ import { Box, Flex, Heading, Spacer } from '@chakra-ui/react';
 
 const Menu = () => {
   return (
-    <Box bg="#C4F1F9" p={4} color="#2B6CB0">
+    <Box bg="#2A4365" p={4} color="#FFFFFF">
       <Flex align="center">
         <Heading as="h2" size="lg" mr={8}>
           TodoTask
