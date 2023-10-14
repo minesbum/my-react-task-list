@@ -5,6 +5,8 @@ import { useTaskManager } from './Hooks/useTaskManager';
 import './App.css';
 import Menu from './components/Menu';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ChakraProvider, CSSReset, Box, Input, Button, Heading, Spinner } from "@chakra-ui/react";
+
 
 
 const Home = lazy(()=> import("./Pages/Home"))
@@ -53,45 +55,48 @@ function App() {
   }, [tasks]);
 
   return (
-    <Router>
-        <Menu/>
-        <Suspense fallback="Loading...">
+    <ChakraProvider>
+      <CSSReset />
+      <Router>
+        <Menu />
+        <Suspense fallback={<Spinner size="xl" />}>
           <Routes>
             <Route path="/tareas" element={<Tareas />} />
             <Route path="/sobre-nosotros" element={<SobreNosotros />} />
             <Route path="/" element={<Home />} />
           </Routes>
         </Suspense>
-   
-      <Header />
-      <form onSubmit={handleAddTask}>
-        <input
-          type="text"
-          name="name"
-          autoComplete="off"
-          placeholder="New Task"
-          value={newTaskName}
-          onChange={handleNameChange}
-        />
-        {formErrors.name && <p className="error">{formErrors.name}</p>}
 
-        <input
-          type="text"
-          name="description"
-          autoComplete="off"
-          placeholder="Description (opcional)"
-          value={newTaskDescription}
-          onChange={(e) => setNewTaskDescription(e.target.value)}
-        />
+        <Header />
+        <Box as="form" onSubmit={handleAddTask} mb={4}>
+          <Input
+            type="text"
+            name="name"
+            autoComplete="off"
+            placeholder="New Task"
+            value={newTaskName}
+            onChange={handleNameChange}
+            isInvalid={formErrors.name && newTaskName.length < 3}
+          />
+          <Input
+            type="text"
+            name="description"
+            autoComplete="off"
+            placeholder="Description (optional)"
+            value={newTaskDescription}
+            onChange={(e) => setNewTaskDescription(e.target.value)}
+          />
+          <Button type="submit" colorScheme="teal" mt={2}>
+            Add Task
+          </Button>
+        </Box>
 
-        <button type="submit">Add</button>
-      </form>
-
-      <TaskList tasks={tasks} onDelete={deleteTask} onUpdate={updateTask} onComplete={completeTask} />
-      <div>
-      <h3>You have {pendingTasksCount} Task(s) pending(s)</h3>
-      </div>
-    </Router>
+        <TaskList tasks={tasks} onDelete={deleteTask} onUpdate={updateTask} onComplete={completeTask} />
+        <Heading as="h3" size="md" mt={4}>
+          You have {pendingTasksCount} Task(s) pending(s)
+        </Heading>
+      </Router>
+    </ChakraProvider>
   );
 }
 export default App;
